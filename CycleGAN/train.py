@@ -12,7 +12,7 @@ if __name__ == "__main__":
     parser.add_argument('--pre_train', type = bool, default = True, help = 'pre-train ot not')
     parser.add_argument('--save_mode', type = str, default = 'iter', help = 'saving mode, and by_epoch saving is recommended')
     parser.add_argument('--save_by_epoch', type = int, default = 5, help = 'interval between model checkpoints (by epochs)')
-    parser.add_argument('--save_by_iter', type = int, default = 100000, help = 'interval between model checkpoints (by iterations)')
+    parser.add_argument('--save_by_iter', type = int, default = 10000, help = 'interval between model checkpoints (by iterations)')
     parser.add_argument('--save_name_mode', type = bool, default = True, help = 'True for concise name, and False for exhaustive name')
     parser.add_argument('--load_name', type = str, default = '', help = 'load the pre-trained model with certain epoch')
     # GPU parameters
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument('--cudnn_benchmark', type = bool, default = True, help = 'True for unchanged input data type')
     # Training parameters
     parser.add_argument('--epochs', type = int, default = 40, help = 'number of epochs of training')
-    parser.add_argument('--batch_size', type = int, default = 4, help = 'size of the batches')
+    parser.add_argument('--batch_size', type = int, default = 1, help = 'size of the batches')
     parser.add_argument('--lr_g', type = float, default = 0.0001, help = 'Adam: learning rate for G')
     parser.add_argument('--lr_d', type = float, default = 0.0001, help = 'Adam: learning rate for D')
     parser.add_argument('--b1', type = float, default = 0.5, help = 'Adam: decay of first order momentum of gradient')
@@ -44,10 +44,9 @@ if __name__ == "__main__":
     parser.add_argument('--init_type', type = str, default = 'kaiming', help = 'initialization type of networks')
     parser.add_argument('--init_gain', type = float, default = 0.02, help = 'initialization gain of networks')
     # GAN parameters
-    parser.add_argument('--gan_mode', type = str, default = 'WGAN', help = 'type of GAN: [LSGAN | WGAN], WGAN is recommended')
+    parser.add_argument('--gan_mode', type = str, default = 'LSGAN', help = 'type of GAN: [LSGAN | WGAN], LSGAN is recommended')
     parser.add_argument('--additional_training_d', type = int, default = 1, help = 'number of training D more times than G')
     # Dataset parameters
-    parser.add_argument('--task', type = str, default = 'facade', help = 'the specific task of the system')
     parser.add_argument('--baseroot', type = str, default = '/home/alien/Documents/zyz/ILSVRC2012_train_256', help = 'color image baseroot')
     opt = parser.parse_args()
 
