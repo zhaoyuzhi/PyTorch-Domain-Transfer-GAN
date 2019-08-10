@@ -45,7 +45,7 @@ def Trainer_LSGAN(opt):
     # Optimizers
     optimizer_G = torch.optim.Adam(
         itertools.chain(generator_a.parameters(), generator_b.parameters()),
-        lr = opt.lr, betas = (opt.b1, opt.b2),
+        lr = opt.lr_g, betas = (opt.b1, opt.b2),
         weight_decay = opt.weight_decay
     )
     optimizer_D_a = torch.optim.Adam(discriminator_a.parameters(), lr = opt.lr_d, betas = (opt.b1, opt.b2))
@@ -253,7 +253,7 @@ def Trainer_WGAN(opt):
     # Optimizers
     optimizer_G = torch.optim.Adam(
         itertools.chain(generator_a.parameters(), generator_b.parameters()),
-        lr = opt.lr, betas = (opt.b1, opt.b2),
+        lr = opt.lr_g, betas = (opt.b1, opt.b2),
         weight_decay = opt.weight_decay
     )
     optimizer_D_a = torch.optim.Adam(discriminator_a.parameters(), lr = opt.lr_d, betas = (opt.b1, opt.b2))
@@ -300,9 +300,6 @@ def Trainer_WGAN(opt):
                         torch.save(generator_a, 'WGAN_MUNIT_iter%d_bs%d_a.pth' % (iteration, opt.batch_size))
                         torch.save(generator_b, 'WGAN_MUNIT_iter%d_bs%d_b.pth' % (iteration, opt.batch_size))
                         print('The trained model is successfully saved at iteration %d' % (iteration))
-    
-    # Tensor type
-    Tensor = torch.cuda.FloatTensor
 
     # ----------------------------------------
     #             Network dataset
@@ -326,8 +323,8 @@ def Trainer_WGAN(opt):
             img_b = img_b.cuda()
 
             # Sampled style codes (prior)
-            prior_s_a = Tensor(torch.randn(img_a.shape[0], opt.style_dim))
-            prior_s_b = Tensor(torch.randn(img_a.shape[0], opt.style_dim))
+            prior_s_a = torch.randn(img_a.shape[0], opt.style_dim).cuda()
+            prior_s_b = torch.randn(img_a.shape[0], opt.style_dim).cuda()
 
             # ----------------------------------------
             #              Train Generator
