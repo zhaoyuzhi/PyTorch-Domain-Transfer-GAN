@@ -196,16 +196,14 @@ class PatchDiscriminator70(nn.Module):
         super(PatchDiscriminator70, self).__init__()
         # Down sampling
         self.block1 = Conv2dLayer(opt.out_channels, 64, 4, 2, 1, pad_type = opt.pad, norm = 'none')
-        self.block2 = Conv2dLayer(64, 128, 4, 2, 1, pad_type = opt.pad, norm = opt.norm)
-        self.block3 = Conv2dLayer(128, 256, 4, 2, 1, pad_type = opt.pad, norm = opt.norm)
+        self.block2 = Conv2dLayer(64, 128, 4, 2, 1, pad_type = opt.pad, norm = opt.norm_content)
+        self.block3 = Conv2dLayer(128, 256, 4, 2, 1, pad_type = opt.pad, norm = opt.norm_content)
         # Final output, implemention of 70 * 70 PatchGAN
-        self.final1 = Conv2dLayer(256, 512, 4, 1, 1, pad_type = opt.pad, norm = opt.norm)
+        self.final1 = Conv2dLayer(256, 512, 4, 1, 1, pad_type = opt.pad, norm = opt.norm_content)
         self.final2 = Conv2dLayer(512, 1, 4, 1, 1, pad_type = opt.pad, norm = 'none', activation = 'none')
 
-    def forward(self, img_A, img_B):
+    def forward(self, x):
         # Concatenate image and condition image by channels to produce input
-        # img_A: grayscale input; img_B: ab embedding output
-        x = torch.cat((img_A, img_B), 1)                        # out: batch * 3 * 256 * 256
         x = self.block1(x)                                      # out: batch * 64 * 128 * 128
         x = self.block2(x)                                      # out: batch * 128 * 64 * 64
         x = self.block3(x)                                      # out: batch * 256 * 32 * 32
