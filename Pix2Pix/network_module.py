@@ -8,7 +8,7 @@ from torch.nn import Parameter
 #               Conv2d Block
 # ----------------------------------------
 class Conv2dLayer(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = True):
+    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = False):
         super(Conv2dLayer, self).__init__()
         # Initialize the padding scheme
         if pad_type == 'reflect':
@@ -66,7 +66,7 @@ class Conv2dLayer(nn.Module):
         return x
 
 class TransposeConv2dLayer(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = True, scale_factor = 2):
+    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = False, scale_factor = 2):
         super(TransposeConv2dLayer, self).__init__()
         # Initialize the conv scheme
         self.scale_factor = scale_factor
@@ -76,56 +76,6 @@ class TransposeConv2dLayer(nn.Module):
         x = F.interpolate(x, scale_factor = self.scale_factor, mode = 'nearest')
         x = self.conv2d(x)
         return x
-
-# ----------------------------------------
-#            ConvLSTM2d Block
-# ----------------------------------------
-class ConvLSTM2d(nn.Module):
-    def __init__(self, input_size, hidden_size, kernel_size = 3):
-        super(ConvLSTM2d, self).__init__()
-        self.input_size = input_size
-        self.hidden_size = hidden_size
-        self.kernel_size = kernel_size
-        self.padding = int((kernel_size - 1) / 2)
-        self.Gates = nn.Conv2d(input_size + hidden_size, 4 * hidden_size, kernel_size = self.kernel_size, stride = 1, padding = self.padding)
-
-    def forward(self, input_, prev_state):
-
-        # get batch and spatial sizes
-        batch_size = input_.shape[0]
-        spatial_size = input_.shape[2:]
-
-        # generate empty prev_state, if None is provided
-        if prev_state is None:
-            state_size = [batch_size, self.hidden_size] + list(spatial_size)
-            prev_state = (
-                Variable(torch.zeros(state_size)).cuda(),
-                Variable(torch.zeros(state_size)).cuda()
-            )
-
-        # prev_state has two components
-        prev_hidden, prev_cell = prev_state
-
-        # data size is [batch, channel, height, width]
-        stacked_inputs = torch.cat((input_, prev_hidden), 1)
-        gates = self.Gates(stacked_inputs)
-
-        # chunk across channel dimension: split it to 4 samples at dimension 1
-        in_gate, remember_gate, out_gate, cell_gate = gates.chunk(4, 1)
-
-        # apply sigmoid non linearity
-        in_gate = torch.sigmoid(in_gate)
-        remember_gate = torch.sigmoid(remember_gate)
-        out_gate = torch.sigmoid(out_gate)
-
-        # apply tanh non linearity
-        cell_gate = torch.tanh(cell_gate)
-
-        # compute current cell and hidden state
-        cell = (remember_gate * prev_cell) + (in_gate * cell_gate)
-        hidden = out_gate * torch.tanh(cell)
-
-        return hidden, cell
 
 # ----------------------------------------
 #               Layer Norm
