@@ -49,6 +49,8 @@ if __name__ == "__main__":
     # Dataset parameters
     parser.add_argument('--task', type = str, default = 'facade', help = 'the specific task of the system')
     parser.add_argument('--baseroot', type = str, default = 'C:\\Users\\ZHAO Yuzhi\\Desktop\\dataset\\ILSVRC2012_train_256', help = 'color image baseroot')
+    parser.add_argument('--baseroot_A', type = str, default = 'C:\\Users\\ZHAO Yuzhi\\Desktop\\dataset\\ILSVRC2012_train_256', help = 'domain A baseroot')
+    parser.add_argument('--baseroot_B', type = str, default = 'C:\\Users\\ZHAO Yuzhi\\Desktop\\dataset\\ILSVRC2012_train_256', help = 'domain B baseroot')
     opt = parser.parse_args()
 
     # ----------------------------------------

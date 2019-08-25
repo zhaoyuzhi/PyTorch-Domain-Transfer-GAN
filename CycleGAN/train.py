@@ -47,7 +47,9 @@ if __name__ == "__main__":
     parser.add_argument('--gan_mode', type = str, default = 'LSGAN', help = 'type of GAN: [LSGAN | WGAN], LSGAN is recommended')
     parser.add_argument('--additional_training_d', type = int, default = 1, help = 'number of training D more times than G')
     # Dataset parameters
-    parser.add_argument('--baseroot', type = str, default = '/home/alien/Documents/zyz/ILSVRC2012_train_256', help = 'color image baseroot')
+    parser.add_argument('--baseroot', type = str, default = 'C:\\Users\\ZHAO Yuzhi\\Desktop\\dataset\\ILSVRC2012_train_256', help = 'color image baseroot')
+    parser.add_argument('--baseroot_A', type = str, default = 'C:\\Users\\ZHAO Yuzhi\\Desktop\\dataset\\ILSVRC2012_train_256', help = 'domain A baseroot')
+    parser.add_argument('--baseroot_B', type = str, default = 'C:\\Users\\ZHAO Yuzhi\\Desktop\\dataset\\ILSVRC2012_train_256', help = 'domain B baseroot')
     opt = parser.parse_args()
 
     # ----------------------------------------

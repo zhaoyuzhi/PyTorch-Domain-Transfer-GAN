@@ -8,7 +8,7 @@ from torch.nn import Parameter
 #               Conv2d Block
 # ----------------------------------------
 class Conv2dLayer(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = True):
+    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = False):
         super(Conv2dLayer, self).__init__()
         # Initialize the padding scheme
         if pad_type == 'reflect':
@@ -66,7 +66,7 @@ class Conv2dLayer(nn.Module):
         return x
 
 class TransposeConv2dLayer(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = True, scale_factor = 2):
+    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = False, scale_factor = 2):
         super(TransposeConv2dLayer, self).__init__()
         # Initialize the conv scheme
         self.scale_factor = scale_factor
@@ -78,15 +78,38 @@ class TransposeConv2dLayer(nn.Module):
         return x
         
 class ResConv2dLayer(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = True, scale_factor = 2):
+    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = False, scale_factor = 2):
         super(ResConv2dLayer, self).__init__()
         # Initialize the conv scheme
-        self.conv2d = Conv2dLayer(in_channels, out_channels, kernel_size, stride, padding, dilation, pad_type, activation, norm, sn)
+        self.conv2d = nn.Sequential(
+            Conv2dLayer(in_channels, out_channels, kernel_size, stride, padding, dilation, pad_type, activation, norm, sn),
+            Conv2dLayer(in_channels, out_channels, kernel_size, stride, padding, dilation, pad_type, activation = 'none', norm = norm, sn = sn)
+        )
+        
+        # Initialize the activation funtion
+        if activation == 'relu':
+            self.activation = nn.ReLU(inplace = True)
+        elif activation == 'lrelu':
+            self.activation = nn.LeakyReLU(0.2, inplace = True)
+        elif activation == 'prelu':
+            self.activation = nn.PReLU()
+        elif activation == 'selu':
+            self.activation = nn.SELU(inplace = True)
+        elif activation == 'tanh':
+            self.activation = nn.Tanh()
+        elif activation == 'sigmoid':
+            self.activation = nn.Sigmoid()
+        elif activation == 'none':
+            self.activation = None
+        else:
+            assert 0, "Unsupported activation: {}".format(activation)
     
     def forward(self, x):
         residual = x
         out = self.conv2d(x)
         out = out + residual
+        if self.activation:
+            out = self.activation(out)
         return out
 
 # ----------------------------------------
@@ -142,7 +165,6 @@ class ConvLSTM2d(nn.Module):
 # ----------------------------------------
 #               Layer Norm
 # ----------------------------------------
-
 class LayerNorm(nn.Module):
     def __init__(self, num_features, eps = 1e-8, affine = True):
         super(LayerNorm, self).__init__()

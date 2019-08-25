@@ -78,15 +78,8 @@ def Pre_train(opt):
     #             Network dataset
     # ----------------------------------------
 
-    # Define the image list
-    imglist = utils.get_jpgs(opt.baseroot)
-    '''
-    imgnumber = len(imglist) - (len(imglist) % opt.batch_size)
-    imglist = imglist[:imgnumber]
-    '''
-
     # Define the dataset
-    trainset = dataset.NormalRGBDataset(opt, imglist)
+    trainset = dataset.NormalRGBDataset(opt)
     print('The overall number of images:', len(trainset))
 
     # Define the dataloader
@@ -210,15 +203,8 @@ def Continue_train_LSGAN(opt):
     #             Network dataset
     # ----------------------------------------
 
-    # Define the image list
-    imglist = utils.get_jpgs(opt.baseroot)
-    '''
-    imgnumber = len(imglist) - (len(imglist) % opt.batch_size)
-    imglist = imglist[:imgnumber]
-    '''
-
     # Define the dataset
-    trainset = dataset.NormalRGBDataset(opt, imglist)
+    trainset = dataset.NormalRGBDataset(opt)
     print('The overall number of images:', len(trainset))
 
     # Define the dataloader
@@ -363,15 +349,8 @@ def Continue_train_WGAN(opt):
     #             Network dataset
     # ----------------------------------------
 
-    # Define the image list
-    imglist = utils.get_jpgs(opt.baseroot)
-    '''
-    imgnumber = len(imglist) - (len(imglist) % opt.batch_size)
-    imglist = imglist[:imgnumber]
-    '''
-
     # Define the dataset
-    trainset = dataset.NormalRGBDataset(opt, imglist)
+    trainset = dataset.NormalRGBDataset(opt)
     print('The overall number of images:', len(trainset))
 
     # Define the dataloader

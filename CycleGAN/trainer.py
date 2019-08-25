@@ -104,28 +104,8 @@ def CycleGAN_LSGAN(opt):
     #             Network dataset
     # ----------------------------------------
 
-    # Define the image list
-    imglist = utils.get_jpgs(opt.baseroot)
-    '''
-    # Sample the target images
-    namelist = []
-    import random
-    if 1 == 1:
-        for i in range(len(imglist)):
-            if i % 30 == 0:
-                a = random.randint(0, 30 - 1) + i
-                if a >= (len(imglist) - 1):
-                    a = len(imglist) - 1
-                namelist.append(imglist[a])
-    imglist = namelist
-    '''
-    '''
-    imgnumber = len(imglist) - (len(imglist) % opt.batch_size)
-    imglist = imglist[:imgnumber]
-    '''
-
     # Define the dataset
-    trainset = dataset.ColorizationDataset(opt, imglist)
+    trainset = dataset.ColorizationDataset(opt)
     print('The overall number of images:', len(trainset))
 
     # Define the dataloader
