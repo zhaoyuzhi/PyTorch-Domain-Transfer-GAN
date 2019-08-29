@@ -78,7 +78,7 @@ class TransposeConv2dLayer(nn.Module):
         return x
         
 class ResConv2dLayer(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = False, scale_factor = 2):
+    def __init__(self, in_channels, out_channels, kernel_size, stride = 1, padding = 0, dilation = 1, pad_type = 'zero', activation = 'lrelu', norm = 'none', sn = False):
         super(ResConv2dLayer, self).__init__()
         # Initialize the conv scheme
         self.conv2d = nn.Sequential(
@@ -116,13 +116,17 @@ class ResConv2dLayer(nn.Module):
 #            ConvLSTM2d Block
 # ----------------------------------------
 class ConvLSTM2d(nn.Module):
-    def __init__(self, input_size, hidden_size, kernel_size = 3):
+    def __init__(self, input_size, hidden_size, kernel_size = 3, sn = False):
         super(ConvLSTM2d, self).__init__()
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.kernel_size = kernel_size
         self.padding = int((kernel_size - 1) / 2)
-        self.Gates = nn.Conv2d(input_size + hidden_size, 4 * hidden_size, kernel_size = self.kernel_size, stride = 1, padding = self.padding)
+        # Initialize the convolution layers
+        if sn:
+            self.Gates = SpectralNorm(nn.Conv2d(input_size + hidden_size, 4 * hidden_size, kernel_size = self.kernel_size, stride = 1, padding = self.padding))
+        else:
+            self.Gates = nn.Conv2d(input_size + hidden_size, 4 * hidden_size, kernel_size = self.kernel_size, stride = 1, padding = self.padding)
 
     def forward(self, input_, prev_state):
 
