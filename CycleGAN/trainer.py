@@ -105,7 +105,7 @@ def CycleGAN_LSGAN(opt):
     # ----------------------------------------
 
     # Define the dataset
-    trainset = dataset.ColorizationDataset(opt)
+    trainset = dataset.DomainTransferDataset(opt)
     print('The overall number of images:', len(trainset))
 
     # Define the dataloader
