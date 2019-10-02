@@ -107,17 +107,17 @@ def savetxt(name, loss_log):
 def get_files(path):
     # read a folder, return the complete path
     ret = []
-    for root, dirs, files in os.walk(path):  
-        for filespath in files: 
-            ret.append(os.path.join(root,filespath)) 
+    for root, dirs, files in os.walk(path):
+        for filespath in files:
+            ret.append(os.path.join(root, filespath))
     return ret
 
 def get_jpgs(path):
     # read a folder, return the image name
-    ret = [] 
-    for root, dirs, files in os.walk(path):  
-        for filespath in files: 
-            ret.append(filespath) 
+    ret = []
+    for root, dirs, files in os.walk(path):
+        for filespath in files:
+            ret.append(filespath)
     return ret
 
 def text_save(content, filename, mode = 'a'):
