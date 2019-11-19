@@ -173,6 +173,7 @@ def CycleGAN_LSGAN(opt):
             # Overall Loss and optimize
             loss_D_A = 0.5 * (loss_fake + loss_true)
             loss_D_A.backward()
+            optimizer_D_A.step()
             
             # Train Discriminator B
             optimizer_D_B.zero_grad()
@@ -188,6 +189,7 @@ def CycleGAN_LSGAN(opt):
             # Overall Loss and optimize
             loss_D_B = 0.5 * (loss_fake + loss_true)
             loss_D_B.backward()
+            optimizer_D_B.step()
     
             # Determine approximate time left
             iters_done = epoch * len(dataloader) + i
