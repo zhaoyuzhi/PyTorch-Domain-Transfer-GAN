@@ -57,7 +57,7 @@ class Generator(nn.Module):
         # Decoder
         self.D1 = TransposeConv2dLayer(opt.start_channels * 4, opt.start_channels * 2, 3, 1, 1, pad_type = opt.pad, norm = opt.norm, scale_factor = 2)
         self.D2 = TransposeConv2dLayer(opt.start_channels * 2, opt.start_channels, 3, 1, 1, pad_type = opt.pad, norm = opt.norm, scale_factor = 2)
-        self.D3 = Conv2dLayer(opt.start_channels, opt.out_channels, 3, 1, 1, pad_type = opt.pad, norm = 'none', activation = 'tanh')
+        self.D3 = Conv2dLayer(opt.start_channels, opt.out_channels, 7, 1, 3, pad_type = opt.pad, norm = 'none', activation = 'tanh')
 
     def forward(self, x):
         # U-Net generator with skip connections from encoder to decoder
