@@ -57,7 +57,7 @@ def CycleGAN_LSGAN(opt):
     
     # Learning rate decrease
     def adjust_learning_rate(opt, epoch, iteration, optimizer):
-        #Set the learning rate to the initial LR decayed by "lr_decrease_factor" every "lr_decrease_epoch" epochs
+        # Set the learning rate to the initial LR decayed by "lr_decrease_factor" every "lr_decrease_epoch" epochs
         if opt.lr_decrease_mode == 'epoch':
             lr = opt.lr_g * (opt.lr_decrease_factor ** (epoch // opt.lr_decrease_epoch))
             for param_group in optimizer.param_groups:
