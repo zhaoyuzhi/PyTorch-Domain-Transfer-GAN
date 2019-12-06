@@ -293,9 +293,8 @@ class SpectralNorm(nn.Module):
         return self.module.forward(*args)
 
 # ----------------------------------------
-#               AdaIN Block
+#                 LN Block
 # ----------------------------------------
-
 class LayerNorm(nn.Module):
     def __init__(self, num_features, eps = 1e-8, affine = True):
         super(LayerNorm, self).__init__()
@@ -327,7 +326,6 @@ class LayerNorm(nn.Module):
 # ----------------------------------------
 #               AdaIN Block
 # ----------------------------------------
-
 # AdaptiveInstanceNorm2d receives one feature map and one linear vector
 class AdaptiveInstanceNorm2d(nn.Module):
 
