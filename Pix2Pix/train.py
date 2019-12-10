@@ -20,7 +20,7 @@ if __name__ == "__main__":
     parser.add_argument('--gpu_ids', type = str, default = '0, 1, 2, 3', help = 'gpu_ids: e.g. 0  0,1  0,1,2  use -1 for CPU')
     parser.add_argument('--cudnn_benchmark', type = bool, default = True, help = 'True for unchanged input data type')
     # Training parameters
-    parser.add_argument('--epochs', type = int, default = 10, help = 'number of epochs of training')
+    parser.add_argument('--epochs', type = int, default = 40, help = 'number of epochs of training')
     parser.add_argument('--batch_size', type = int, default = 4, help = 'size of the batches')
     parser.add_argument('--lr_g', type = float, default = 0.0002, help = 'Adam: learning rate for G')
     parser.add_argument('--lr_d', type = float, default = 0.0002, help = 'Adam: learning rate for D')
@@ -28,13 +28,11 @@ if __name__ == "__main__":
     parser.add_argument('--b2', type = float, default = 0.999, help = 'Adam: decay of second order momentum of gradient')
     parser.add_argument('--weight_decay', type = float, default = 0, help = 'weight decay for optimizer')
     parser.add_argument('--lr_decrease_mode', type = str, default = 'epoch', help = 'lr decrease mode, by_epoch or by_iter')
-    parser.add_argument('--lr_decrease_epoch', type = int, default = 5, help = 'lr decrease at certain epoch and its multiple')
+    parser.add_argument('--lr_decrease_epoch', type = int, default = 10, help = 'lr decrease at certain epoch and its multiple')
     parser.add_argument('--lr_decrease_iter', type = int, default = 200000, help = 'lr decrease at certain epoch and its multiple')
     parser.add_argument('--lr_decrease_factor', type = float, default = 0.5, help = 'lr decrease factor')
     parser.add_argument('--num_workers', type = int, default = 4, help = 'number of cpu threads to use during batch generation')
     parser.add_argument('--lambda_gan', type = float, default = 0.01, help = 'coefficient for GAN Loss')
-    parser.add_argument('--lambda_cycle', type = float, default = 10, help = 'coefficient for Cycle-consistent Loss')
-    parser.add_argument('--lambda_identity', type = float, default = 5, help = 'coefficient for indentity Loss for CycleGAN')
     # Initialization parameters
     parser.add_argument('--pad', type = str, default = 'reflect', help = 'pad type of networks')
     parser.add_argument('--norm', type = str, default = 'bn', help = 'normalization type of networks')
