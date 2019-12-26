@@ -126,26 +126,30 @@ class DomainTransferDataset(Dataset):
         ## Image A
         random_A = random.randint(0, self.len_A - 1)
         imgpath_A = self.imglist_A[random_A]
+        '''
         img_A = cv2.imread(imgpath_A, cv2.IMREAD_GRAYSCALE)
         img_A = np.expand_dims(img_A, 2)
+        '''
+        img_A = cv2.imread(imgpath_A)
         # normalized to [-1, 1]
         img_A = (img_A.astype(np.float64) - 128) / 128
         # data augmentation
         img_A = self.img_aug(img_A)
         # to PyTorch Tensor
-        img_A = np.expand_dims(img_A, 2)
         img_A = torch.from_numpy(img_A.transpose(2, 0, 1).astype(np.float32)).contiguous()
         ## Image B
         random_B = random.randint(0, self.len_B - 1)
         imgpath_B = self.imglist_B[random_B]
+        '''
         img_B = cv2.imread(imgpath_B, cv2.IMREAD_GRAYSCALE)
         img_B = np.expand_dims(img_B, 2)
+        '''
+        img_B = cv2.imread(imgpath_B)
         # normalized to [-1, 1]
         img_B = (img_B.astype(np.float64) - 128) / 128
         # data augmentation
         img_B = self.img_aug(img_B)
         # to PyTorch Tensor
-        img_B = np.expand_dims(img_B, 2)
         img_B = torch.from_numpy(img_B.transpose(2, 0, 1).astype(np.float32)).contiguous()
         return img_A, img_B
     
