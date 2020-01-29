@@ -32,7 +32,7 @@ if __name__ == "__main__":
     parser.add_argument('--lr_decrease_iter', type = int, default = 200000, help = 'lr decrease at certain epoch and its multiple')
     parser.add_argument('--lr_decrease_factor', type = float, default = 1, help = 'lr decrease factor')
     parser.add_argument('--num_workers', type = int, default = 4, help = 'number of cpu threads to use during batch generation')
-    parser.add_argument('--lambda_gan', type = float, default = 0.1, help = 'coefficient for GAN Loss')
+    parser.add_argument('--lambda_gan', type = float, default = 1, help = 'coefficient for GAN Loss; it can be adjusted to 0.5 / 0.1')
     parser.add_argument('--lambda_cycle', type = float, default = 10, help = 'coefficient for Cycle-consistent Loss')
     parser.add_argument('--lambda_identity', type = float, default = 5, help = 'coefficient for indentity Loss for CycleGAN (very hard to control, or set it to 0)')
     # Initialization parameters
