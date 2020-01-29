@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument('--gpu_ids', type = str, default = '0, 1, 2, 3', help = 'gpu_ids: e.g. 0  0,1  0,1,2  use -1 for CPU')
     parser.add_argument('--cudnn_benchmark', type = bool, default = True, help = 'True for unchanged input data type')
     # Training parameters
-    parser.add_argument('--epochs', type = int, default = 1000, help = 'number of epochs of training')
+    parser.add_argument('--epochs', type = int, default = 1000, help = 'number of epochs of training, which should be larger than 1000000 iterations')
     parser.add_argument('--batch_size', type = int, default = 1, help = 'size of the batches')
     parser.add_argument('--lr_g', type = float, default = 0.0001, help = 'Adam: learning rate for G')
     parser.add_argument('--lr_d', type = float, default = 0.0001, help = 'Adam: learning rate for D')
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     parser.add_argument('--n_down_style', type = int, default = 4, help = 'down sample blocks for the style encoder')
     parser.add_argument('--n_res', type = int, default = 4, help = 'number of res blocks for the generator')
     parser.add_argument('--n_mlp', type = int, default = 3, help = 'number of linear blocks for the style mlp')
-    parser.add_argument('--init_type', type = str, default = 'normal', help = 'initialization type of networks')
+    parser.add_argument('--init_type', type = str, default = 'kaiming', help = 'initialization type of networks')
     parser.add_argument('--init_gain', type = float, default = 0.02, help = 'initialization gain of networks')
     # GAN parameters
     parser.add_argument('--gan_mode', type = str, default = 'WGAN', help = 'type of GAN: [LSGAN | WGAN], WGAN is recommended')
