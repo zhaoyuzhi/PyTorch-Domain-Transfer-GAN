@@ -24,7 +24,7 @@ if __name__ == "__main__":
     parser.add_argument('--b1', type = float, default = 0.5, help = 'Adam: decay of first order momentum of gradient')
     parser.add_argument('--b2', type = float, default = 0.999, help = 'Adam: decay of second order momentum of gradient')
     parser.add_argument('--weight_decay', type = float, default = 0, help = 'weight decay for optimizer')
-    parser.add_argument('--lr_decrease_mode', type = str, default = 'epoch', help = 'lr decrease mode, by_epoch or by_iter')
+    parser.add_argument('--lr_decrease_mode', type = str, default = 'iter', help = 'lr decrease mode, by_epoch or by_iter')
     parser.add_argument('--lr_decrease_epoch', type = int, default = 100, help = 'lr decrease at certain epoch and its multiple')
     parser.add_argument('--lr_decrease_iter', type = int, default = 100000, help = 'lr decrease at certain epoch and its multiple')
     parser.add_argument('--lr_decrease_factor', type = float, default = 0.5, help = 'lr decrease factor')
