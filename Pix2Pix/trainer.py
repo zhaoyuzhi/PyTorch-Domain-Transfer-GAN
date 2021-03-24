@@ -242,9 +242,11 @@ def Continue_train_LSGAN(opt):
                 # True samples
                 true_scalar_d = discriminator(true_input, true_target)
                 loss_true = criterion_MSE(true_scalar_d, valid)
+                
                 # Overall Loss and optimize
                 loss_D = 0.5 * (loss_fake + loss_true)
                 loss_D.backward()
+                optimizer_D.step()
      
             # Train Generator
             optimizer_G.zero_grad()
@@ -381,9 +383,11 @@ def Continue_train_WGAN(opt):
                 # Fake samples
                 fake_scalar_d = discriminator(true_input, fake_target.detach())
                 true_scalar_d = discriminator(true_input, true_target)
+                
                 # Overall Loss and optimize
                 loss_D = - torch.mean(true_scalar_d) + torch.mean(fake_scalar_d)
                 loss_D.backward()
+                optimizer_D.step()
 
             # Train Generator
             optimizer_G.zero_grad()
